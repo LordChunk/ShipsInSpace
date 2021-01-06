@@ -30,4 +30,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\PirateRegistration\" />
+  </ItemGroup>
+
 </Project>
