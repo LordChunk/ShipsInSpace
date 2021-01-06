@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Complete";
+}
+@model ShipsInSpace.Models.RegistrationViewModel
+
+<div class="text-center">
+
+    <p>
+        Your plate number is: @Model.Plate
+    </p>
+    <p>
+        Your secret code is: @Model.SecretCode
+    </p>
+    
+    <a asp-action="Login" asp-controller ="Login">Go to the login page</a>
+</div>
