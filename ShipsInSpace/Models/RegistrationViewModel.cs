@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ShipsInSpace.Models.Enums;
 
 namespace ShipsInSpace.Models
 {
@@ -10,10 +11,8 @@ namespace ShipsInSpace.Models
         public string Plate { get; set; }
 
         [Required]
-        [Display(Name = "pilot's license")]
-        [MaxLength(1)]
-        [MinLength(1)]
-        public char PilotLicense { get; set; }
+        [Display(Name = "Pilot's license")]
+        public PilotLicense PilotLicense { get; set; }
 
         public string SecretCode { get; set; }
     }
