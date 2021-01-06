@@ -21,4 +21,12 @@
     <ProjectReference Include="..\GalacticSpaceTransitAuthority\GalacticSpaceTransitAuthority.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Properties\ServiceDependencies\Azure - Web Deploy\profile.arm.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
