@@ -1,5 +1,3 @@
-using System;
-
 namespace ShipsInSpace.Models
 {
     public class ErrorViewModel
