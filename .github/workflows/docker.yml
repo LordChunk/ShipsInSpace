@@ -49,7 +49,7 @@ jobs:
           # Don't push draft pull requests
           push: ${{ github.event.pull_request.draft == false }}
           tags: ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_REPOSITORY }}:${{ env.BRANCH_NAME }}
-          file: ./API/Dockerfile
+          file: ./ShipsInSpace/Dockerfile
 
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
