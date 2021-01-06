@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Register";
+}
+@model ShipsInSpace.Models.RegistrationViewModel
+
+<div class="text-center">
+    <form asp-action="RegisterPlate">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label  asp-for="Plate" class="control-label"></label>
+            <input asp-for="Plate" name="Plate" class="form-control" />
+            <span asp-validation-for="@Model.Plate" class="text-danger"></span>
+        </div>
+        
+        <div class="form-group">
+            <label  asp-for="PilotLicense" class="control-label"></label>
+            <input asp-for="PilotLicense" name="PilotLicense" class="form-control" />
+            <span asp-validation-for="@Model.PilotLicense" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
