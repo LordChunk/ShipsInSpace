@@ -2,11 +2,11 @@
 using Microsoft.Extensions.Logging;
 using ShipsInSpace.Models;
 using System.Diagnostics;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
 namespace ShipsInSpace.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -18,12 +18,12 @@ namespace ShipsInSpace.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
+            // Check if user is pirate
+            if (User.HasClaim(c => c.Type == "License")) 
+                return RedirectToAction("StepOne", "CreateShip");
 
-        public IActionResult Privacy()
-        {
-            return View();
+            // Redirect to manager page
+            return RedirectToAction("Plate", "Registration");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
