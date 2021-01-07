@@ -47,7 +47,7 @@ namespace ShipsInSpace.Controllers
         {
             if (!ValidateChoicesStep2(model))
             {
-                RedirectToAction("Step3", model);
+                RedirectToAction("Step2", model);
             }
 
             return RedirectToAction("Step3", model);

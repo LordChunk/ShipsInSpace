@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using GalacticSpaceTransitAuthority;
+﻿using GalacticSpaceTransitAuthority;
 
 namespace ShipsInSpace.Models
 {
