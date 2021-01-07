@@ -28,7 +28,13 @@ namespace ShipsInSpace.Controllers
             {
                 RedirectToAction("Step1", model);
             }
-            return RedirectToAction("Step3", model);
+
+            for (int i = 0; i < model.NumberOfWings; i++)
+            {
+                model.SelectedShip.Wings.Add(new Wing());
+            }
+
+            return RedirectToAction("Step2", model);
         }
         private bool ValidateChoicesStep1(SelectionOfShipModel model)
         {
@@ -47,7 +53,7 @@ namespace ShipsInSpace.Controllers
         {
             if (!ValidateChoicesStep2(model))
             {
-                RedirectToAction("Step3", model);
+                RedirectToAction("Step2", model);
             }
 
             return RedirectToAction("Step3", model);
