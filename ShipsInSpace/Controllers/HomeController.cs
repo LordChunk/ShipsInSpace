@@ -31,11 +31,5 @@ namespace ShipsInSpace.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        [Authorize(Policy = "License B")]
-        public IActionResult Test()
-        {
-            return Ok();
-        }
     }
 }
