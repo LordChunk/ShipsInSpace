@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ShipsInSpace.Models.Enums
+﻿namespace ShipsInSpace.Models.Enums
 {
     public enum PilotLicense
     {
