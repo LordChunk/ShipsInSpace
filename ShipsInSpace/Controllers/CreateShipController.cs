@@ -3,8 +3,10 @@ using ShipsInSpace.Models;
 
 namespace ShipsInSpace.Controllers
 {
+    [Route("{controller}")]
     public class CreateShipController : Controller
     {
+        [Route("1")]
         public IActionResult Step1(SelectionOfShipModel model = null)
         {
             if (model == null)
@@ -15,6 +17,7 @@ namespace ShipsInSpace.Controllers
         }
 
         [HttpPost]
+        [Route("1")]
         public IActionResult Step1Confirm(SelectionOfShipModel model)
         {
             if (!ValidateChoicesStep1(model))
@@ -28,12 +31,14 @@ namespace ShipsInSpace.Controllers
             return true;
         }
 
+        [Route("2")]
         public IActionResult Step3(SelectionOfShipModel model)
         {
             return View("CreateShip");
         }
 
         [HttpPost]
+        [Route("2")]
         public IActionResult Step2Confirm(SelectionOfShipModel model)
         {
             if (!ValidateChoicesStep2(model))
@@ -47,6 +52,8 @@ namespace ShipsInSpace.Controllers
             return true;
         }
 
+
+        [Route("3")]
         public IActionResult Step3()
         {
             return View("CreateShip");
