@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Logging;
 using ShipsInSpace.Models;
 using System.Diagnostics;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ShipsInSpace.Controllers
 {
@@ -28,6 +30,12 @@ namespace ShipsInSpace.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [Authorize(Policy = "License B")]
+        public IActionResult Test()
+        {
+            return Ok();
         }
     }
 }

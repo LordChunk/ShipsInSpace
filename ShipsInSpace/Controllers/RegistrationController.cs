@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ShipsInSpace.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,9 +34,16 @@ namespace ShipsInSpace.Controllers
 
             // Generate password
             model.SecretCode = GenerateRandomPassword();
+
+            var user = new User {UserName = model.Plate};
+
             // Register user
-            var result = await _userManager.CreateAsync(new User {UserName = model.Plate}, model.SecretCode);
+            var result = await _userManager.CreateAsync(user, model.SecretCode);
             if(!result.Succeeded) RedirectToAction("Plate");
+
+            // Assign claim
+            var result1 = await _userManager.AddClaimAsync(user, new Claim("License", model.PilotLicense.ToString()));
+            if (!result1.Succeeded) RedirectToAction("Plate");
             
             return View("RegistrationComplete",model);
         }
