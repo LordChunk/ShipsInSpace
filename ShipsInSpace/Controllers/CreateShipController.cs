@@ -1,16 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GalacticSpaceTransitAuthority;
+using Microsoft.AspNetCore.Mvc;
 using ShipsInSpace.Models;
 
 namespace ShipsInSpace.Controllers
 {
     public class CreateShipController : Controller
     {
+        private ISpaceTransitAuthority spaceTransitAuthority;
+
+        public CreateShipController(ISpaceTransitAuthority mySpaceTransitAuthority)
+        {
+            spaceTransitAuthority = mySpaceTransitAuthority;
+        }
+
         public IActionResult Step1(SelectionOfShipModel model = null)
         {
             if (model == null)
             {
-                model = new SelectionOfShipModel();
+                model = new SelectionOfShipModel(spaceTransitAuthority);
             }
+
             return View("CreateShip", model);
         }
 
