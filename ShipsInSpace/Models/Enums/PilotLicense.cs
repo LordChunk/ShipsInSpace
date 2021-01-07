@@ -1,10 +1,12 @@
-﻿namespace ShipsInSpace.Models.Enums
+﻿using System;
+
+namespace ShipsInSpace.Models.Enums
 {
     public enum PilotLicense
     {
-        A,
-        B,
-        C,
-        Z
+        A = 1000,
+        B = 1500,
+        C = 2000,
+        Z = int.MaxValue,
     }
 }

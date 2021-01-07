@@ -1,8 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using ShipsInSpace.Models;
+using ShipsInSpace.Models.Enums;
 
 namespace ShipsInSpace
 {
@@ -29,6 +31,13 @@ namespace ShipsInSpace
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Manager", policy => policy.RequireRole("Manager"));
+
+                options.AddPolicy("License", policy => policy.RequireClaim("License"));
+
+                foreach (var license in Enum.GetValues<PilotLicense>())
+                {
+                    options.AddPolicy("License "+license, policy => policy.RequireClaim("License", license.ToString()));
+                }
             });
         }
     }
