@@ -1,3 +1,4 @@
+using GalacticSpaceTransitAuthority;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,9 @@ namespace ShipsInSpace
             services.AddRazorPages();
             
             services.AddPolicies();
+
+            // Register space transit authority
+            services.AddSingleton<ISpaceTransitAuthority, SpaceTransitAuthority>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
