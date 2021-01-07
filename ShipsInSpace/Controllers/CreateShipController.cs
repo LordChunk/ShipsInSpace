@@ -1,4 +1,5 @@
-﻿using GalacticSpaceTransitAuthority;
+﻿using System.Collections.Generic;
+using GalacticSpaceTransitAuthority;
 using Microsoft.AspNetCore.Mvc;
 using ShipsInSpace.Models;
 
@@ -28,7 +29,15 @@ namespace ShipsInSpace.Controllers
             {
                 RedirectToAction("Step1", model);
             }
-            return RedirectToAction("Step3", model);
+
+            model.SelectedShip.Wings = new List<Wing>();
+
+            for (int i = 0; i < model.NumberOfWings; i++)
+            {
+                model.SelectedShip.Wings.Add(new Wing());
+            }
+
+            return RedirectToAction("Step2", model);
         }
         private bool ValidateChoicesStep1(SelectionOfShipModel model)
         {
