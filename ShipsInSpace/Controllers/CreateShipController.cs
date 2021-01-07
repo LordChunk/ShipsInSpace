@@ -15,13 +15,8 @@ namespace ShipsInSpace.Controllers
         }
 
         [Route("1")]
-        public IActionResult Step1(SelectionOfShipModel model = null)
+        public IActionResult Step1(SelectionOfShipModel model)
         {
-            if (model == null)
-            {
-                model = new SelectionOfShipModel(spaceTransitAuthority);
-            }
-
             return View("CreateShip", model);
         }
 
@@ -41,9 +36,9 @@ namespace ShipsInSpace.Controllers
         }
 
         [Route("2")]
-        public IActionResult Step3(SelectionOfShipModel model)
+        public IActionResult Step2(SelectionOfShipModel model)
         {
-            return View("CreateShip");
+            return View("CreateShip", model);
         }
 
         [HttpPost]
@@ -54,6 +49,7 @@ namespace ShipsInSpace.Controllers
             {
                 RedirectToAction("Step3", model);
             }
+
             return RedirectToAction("Step3", model);
         }
         private bool ValidateChoicesStep2(SelectionOfShipModel model)
