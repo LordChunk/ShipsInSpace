@@ -2,6 +2,7 @@
 using GalacticSpaceTransitAuthority;
 using Microsoft.AspNetCore.Mvc;
 using ShipsInSpace.Models;
+using ShipsInSpace.Models.ViewModels;
 
 namespace ShipsInSpace.Controllers
 {

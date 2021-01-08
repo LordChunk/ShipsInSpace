@@ -1,5 +1,5 @@
 ﻿@using GalacticSpaceTransitAuthority
-@model ShipsInSpace.Models.ShipViewModel
+@model ShipsInSpace.Models.ViewModels.HullAndEngineModel
 @inject ISpaceTransitAuthority TransitAuthority
 
 <div class="text-center">
@@ -7,11 +7,23 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="Weapons">
+            <form asp-action="HullAndEngineConfirm">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <span>Select a hull</span>
+                    <select asp-for="Ship.Hull.Id" asp-items='new SelectList(TransitAuthority.GetHulls(), "Id", "Name")'></select>
+                </div>
+
+                <div class="form-group">
+                    <span>Select an engine</span>
+                    <select asp-for="Ship.Engine.Id" asp-items='new SelectList(TransitAuthority.GetEngines(), "Id", "Name")'></select>
+                </div>
                 
                 <div class="form-group">
-
+                    <label  asp-for="NumberOfWings" class="control-label"></label>
+                    <input asp-for="NumberOfWings" class="form-control" />
+                    <span asp-validation-for="NumberOfWings" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
