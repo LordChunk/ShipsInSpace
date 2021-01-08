@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using GalacticSpaceTransitAuthority;
 using Microsoft.AspNetCore.Mvc;
 using ShipsInSpace.Models;
@@ -10,10 +11,12 @@ namespace ShipsInSpace.Controllers
     public class CreateShipController : Controller
     {
         private readonly ISpaceTransitAuthority _spaceTransitAuthority;
+        private readonly Mapper _mapper;
 
-        public CreateShipController(ISpaceTransitAuthority mySpaceTransitAuthority)
+        public CreateShipController(ISpaceTransitAuthority spaceTransitAuthority, Mapper mapper)
         {
-            _spaceTransitAuthority = mySpaceTransitAuthority;
+            _spaceTransitAuthority = spaceTransitAuthority;
+            _mapper = mapper;
         }
 
         public IActionResult Index() { 
@@ -25,8 +28,9 @@ namespace ShipsInSpace.Controllers
         [HttpPost]
         public IActionResult ConfirmHullAndEngine(HullAndEngineModel model)
         {
+            var hull = _spaceTransitAuthority.GetHulls().FirstOrDefault(h => h.Id == model.Ship.Hull.Id);
             // Calculate ship take off mass allowance
-            var hull = GetHullFromViewModel(model.Ship.Hull);
+            model.Ship.Hull = _mapper.Map<HullViewModel>(hull);
             model.Ship.Hull.ActualTakeOffMass = _spaceTransitAuthority.CheckActualHullCapacity(hull);
 
             if (!ModelState.IsValid) return View("HullAndEngine", model);

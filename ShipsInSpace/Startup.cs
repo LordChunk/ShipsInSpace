@@ -37,6 +37,7 @@ namespace ShipsInSpace
 
             // Register space transit authority
             services.AddSingleton<ISpaceTransitAuthority, SpaceTransitAuthority>();
+            services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
