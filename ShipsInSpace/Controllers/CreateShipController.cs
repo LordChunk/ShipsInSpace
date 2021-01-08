@@ -23,7 +23,7 @@ namespace ShipsInSpace.Controllers
         }
 
         [HttpPost]
-        public IActionResult Wings(HullAndEngineModel model)
+        public IActionResult ConfirmHullAndEngine(HullAndEngineModel model)
         {
             if (!ModelState.IsValid) return View("HullAndEngine", model);
 
@@ -34,15 +34,15 @@ namespace ShipsInSpace.Controllers
                 model.Ship.Wings.Add(new WingViewModel());
             }
 
-            return View(model.Ship);
+            return View("Wings", model.Ship);
         }
 
         [HttpPost]
-        public IActionResult Weapons(ShipViewModel model)
+        public IActionResult ConfirmWings(ShipViewModel model)
         {
             if (!ModelState.IsValid) return View("Wings", model);
 
-            return View(model);
+            return View("Weapons", model);
         }
 
 
