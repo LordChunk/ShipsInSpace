@@ -19,13 +19,13 @@ namespace ShipsInSpace.Controllers
         public IActionResult Index() { 
             // TODO: Fetch license plate
 
-            return View("HullAndEngine", new HullAndEngineModel() { Ship = new ShipViewModel()});
+            return View("HullAndEngine", new HullAndEngineModel() { Ship = new ShipViewModel{ Id = 1 }});
         }
 
         [HttpPost]
         public IActionResult Wings(HullAndEngineModel model)
         {
-            if (!ModelState.IsValid) return RedirectToAction("Index");
+            if (!ModelState.IsValid) return View("HullAndEngine", model);
 
             model.Ship.Wings = new List<WingViewModel>();
 

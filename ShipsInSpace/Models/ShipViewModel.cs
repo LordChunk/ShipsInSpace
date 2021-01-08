@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GalacticSpaceTransitAuthority;
+using ShipsInSpace.Models.CustomAttributes;
 
 namespace ShipsInSpace.Models
 {
+    [TotalWeightNotExceeded]
     public class ShipViewModel
     {
         public int Id { get; set; }
