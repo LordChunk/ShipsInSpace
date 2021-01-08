@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace ShipsInSpace.Models.CustomAttributes
 {
@@ -15,7 +14,7 @@ namespace ShipsInSpace.Models.CustomAttributes
             if (ship.Hull == null)
                 return new ValidationResult("Hull needs to be selected.");
            
-            return ship.GetTotalWeight() > (int)ship.Hull.DefaultMaximumTakeOffMass ? ValidationResult.Success : new ValidationResult("Current configuration weights too much!");
+            return ship.GetTotalWeight() > (int)ship.Hull.ActualTakeOffMass ? ValidationResult.Success : new ValidationResult("Current configuration weights too much!");
         }
     }
 }
