@@ -7,7 +7,6 @@ namespace ShipsInSpace.Models
 {
     public class SelectionOfShipViewModel
     {
-
         [TotalWeightNotExceeded]
         public ShipViewModel SelectedShip { get; set; }
 
