@@ -1,0 +1,20 @@
+﻿namespace ShipsInSpace.Models
+{
+    public class WeaponViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public DamageTypeEnum DamageType { get; set; }
+        public int EnergyDrain { get; set; }
+        public int Weight { get; set; }
+    }
+
+    public enum DamageTypeEnum
+    {
+        Kinetic,
+        Heat,
+        Cold,
+        Statis,
+        Gravity
+    }
+}
