@@ -14,10 +14,11 @@
             <form asp-action="Confirm">
                 <input type="hidden" asp-for="Engine.Id" value="@Model.Engine.Id" />
                 <input type="hidden" asp-for="Hull.Id" value="@Model.Hull.Id" />
+                <input type="hidden" asp-for="Hull.ActualTakeOffMass" value="@Model.Hull.ActualTakeOffMass" />
                 <input type="hidden" asp-for="Id" value="@Model.Id" />
                 @for (var i = 0; i < Model.Wings.Count; i++)
                 {
-                    <input type="hidden" asp-for="Wings[i].Id" value="@Model.Wings[i].Id"/>
+                    <input type="hidden" asp-for="Wings[i].Id" value="@Model.Wings[i].Id" />
                 }
                 <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -35,7 +36,7 @@
                     </div>
                 }
                 <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary"/>
+                    <input type="submit" value="Save" class="btn btn-primary" />
                 </div>
             </form>
         </div>

@@ -25,14 +25,16 @@ namespace ShipsInSpace.Controllers
         [HttpPost]
         public IActionResult ConfirmHullAndEngine(HullAndEngineModel model)
         {
+            // Calculate ship take off mass allowance
+            var hull = GetHullFromViewModel(model.Ship.Hull);
+            model.Ship.Hull.ActualTakeOffMass = _spaceTransitAuthority.CheckActualHullCapacity(hull);
+
             if (!ModelState.IsValid) return View("HullAndEngine", model);
 
+            // Fill wings list according to selected number of wings
             model.Ship.Wings = new List<WingViewModel>();
-
             for (var i = 0; i < model.NumberOfWings; i++)
-            {
                 model.Ship.Wings.Add(new WingViewModel());
-            }
 
             return View("Wings", model.Ship);
         }

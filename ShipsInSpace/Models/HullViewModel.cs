@@ -11,6 +11,7 @@ namespace ShipsInSpace.Models
         public int ColdShielding { get; set; }
         public int HeatShielding { get; set; }
         public TakeOffMassEnum DefaultMaximumTakeOffMass { get; set; }
+        public double ActualTakeOffMass { get; set; }
     }
 
     public enum TakeOffMassEnum
