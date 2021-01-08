@@ -2,7 +2,7 @@
     ViewData["Title"] = "Create Ship";
 }
 @using GalacticSpaceTransitAuthority
-@model ShipsInSpace.Models.SelectionOfShipViewModel
+@model ShipsInSpace.Models.ShipViewModel
 @inject ISpaceTransitAuthority TransitAuthority
 
 
@@ -11,21 +11,24 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="Weapons">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                @for (var wingIndex = 0; wingIndex < Model.SelectedShip.Wings.Count; wingIndex++)
+            <form asp-action="Confirm">
+                <input type="hidden" asp-for="Engine.Id" value="@Model.Engine.Id" />
+                <input type="hidden" asp-for="Hull.Id" value="@Model.Hull.Id" />
+                <input type="hidden" asp-for="Id" value="@Model.Id" />
+                @for (var i = 0; i < Model.Wings.Count; i++)
                 {
-                    <div class="form-group">
-                        <select asp-for="SelectedShip.Wings[wingIndex].Id">
-                            @foreach (var wing in TransitAuthority.GetWings())
-                            {
-                                <option value="@wing.Id">@wing.Name - @wing.Weight KG - @wing.NumberOfHardpoints slot</option>
-                            }
-                        </select>
-                    </div>
+                    <input type="hidden" asp-for="Wings[i].Id" value="@Model.Wings[i].Id"/>
+                }
+
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @for (var wingIndex = 0; wingIndex < Model.Wings.Count; wingIndex++)
+                {
+                    <h4>@Model.Wings[wingIndex].Name</h4>
 
                     <div class="form-group">
-                        <select asp-for="SelectedShip.Wings[wingIndex].Hardpoint" multiple>
+                        <select asp-for="Wings[wingIndex].HardpointIds" multiple>
                             @foreach (var weapon in TransitAuthority.GetWeapons())
                             {
                                 <option value="@weapon.Id">@weapon.Name</option>
@@ -34,7 +37,7 @@
                     </div>
                 }
                 <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <input type="submit" value="Save" class="btn btn-primary"/>
                 </div>
             </form>
         </div>

@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Create Ship";
+}
+@using GalacticSpaceTransitAuthority
+@model GalacticSpaceTransitAuthority.Ship
+@inject ISpaceTransitAuthority TransitAuthority
+
+
+<div class="text-center">
+    <h4>Wing</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Configuration</h3>
+            <div>
+                <p>Name: @Model.Name</p>
+                <p>Hull: @Model.Hull.Name</p>
+                <p>Engine: @Model.Engine.Name</p>
+            </div>
+            <div>
+                <h4>Wings</h4>
+                @foreach (var wing in Model.Wings)
+                {
+                    <div>
+                        <p>Name: @wing.Name</p>
+
+                        <h5>Hardpoint list</h5>
+                        @foreach (var hardpoint in wing.Hardpoint)
+                        {
+                            <div>
+                                <p>@hardpoint.Name</p>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+
+            <form asp-action="Confirm">
+                <input type="hidden" asp-for="Engine.Id" value="@Model.Engine.Id" />
+                <input type="hidden" asp-for="Hull.Id" value="@Model.Hull.Id" />
+                <input type="hidden" asp-for="Name" value="@Model.Name" />
+                
+                @foreach (var wing in Model.Wings)
+                {
+                    <input type="hidden" asp-for="Wings"/>
+                }
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

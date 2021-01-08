@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using GalacticSpaceTransitAuthority;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ShipsInSpace.Models;
 using ShipsInSpace.Models.ViewModels;
@@ -9,23 +11,24 @@ namespace ShipsInSpace.Controllers
     public class CreateShipController : Controller
     {
         private ISpaceTransitAuthority _spaceTransitAuthority;
+        private readonly UserManager<User> _userManager;
 
-        public CreateShipController(ISpaceTransitAuthority mySpaceTransitAuthority)
+        public CreateShipController(ISpaceTransitAuthority mySpaceTransitAuthority, UserManager<User> userManager)
         {
             _spaceTransitAuthority = mySpaceTransitAuthority;
+            _userManager = userManager;
         }
 
-        public IActionResult Index() => RedirectToAction("HullAndEngine");
+        public IActionResult Index() { 
+            // TODO: Fetch license plate
 
-        public IActionResult HullAndEngine(HullAndEngineModel model)
-        {
-            return View(model);
+            return View("HullAndEngine", new HullAndEngineModel() { Ship = new ShipViewModel()});
         }
 
         [HttpPost]
-        public IActionResult HullAndEngineConfirm(HullAndEngineModel model)
+        public IActionResult Wings(HullAndEngineModel model)
         {
-            if (!ModelState.IsValid) return RedirectToAction("HullAndEngine", model);
+            if (!ModelState.IsValid) return RedirectToAction("Index");
 
             model.Ship.Wings = new List<WingViewModel>();
 
@@ -34,44 +37,41 @@ namespace ShipsInSpace.Controllers
                 model.Ship.Wings.Add(new WingViewModel());
             }
 
-            return RedirectToAction("Wings", model.Ship);
-        }
-
-        public IActionResult Wings(ShipViewModel model)
-        {
-            return View(model);
-        }
-
-        public IActionResult WingsConfirm(ShipViewModel model)
-        {
-            return RedirectToAction(!ModelState.IsValid ? "Wings" : "Weapons", model);
-        }
-
-
-
-        public IActionResult Weapons(ShipViewModel model)
-        {
-            return View(model);
+            return View(model.Ship);
         }
 
         [HttpPost]
-        public IActionResult WeaponsConfirm(ShipViewModel model)
+        public IActionResult Weapons(ShipViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                RedirectToAction("Weapons", model);
-            }
+            if (!ModelState.IsValid) return View("Wings", model);
 
-            return RedirectToAction("Step3", model);
+            // Instantiate viewmodel hardpoints based on size of wing
+            //foreach (var wing in model.Wings)
+            //{
+            //    wing.Hardpoint = new List<WeaponViewModel>();
+
+            //    // Fetch hardpoints from service
+            //    var numberOfHardpoints = _spaceTransitAuthority.GetWings().First(w => w.Id == wing.Id).NumberOfHardpoints;
+            //    for (var i = 0; i < numberOfHardpoints; i++)
+            //    {
+            //        wing.Hardpoint.Add(new WeaponViewModel());
+            //    }
+            //}
+
+            return View(model);
         }
 
 
+        [HttpPost]
+        public IActionResult Confirm(ShipViewModel model)
+        {
+            if (!ModelState.IsValid) return View("Weapons", model);
+            
+            var finalShip = FillModelFromIds(model);
+            
+            return View(finalShip);
+        }
 
-        //[Route("3")]
-        //public IActionResult Step3()
-        //{
-        //    return View("CreateShip");
-        //}
 
         private Hull GetHullFromViewModel(HullViewModel hullView)
         {
@@ -84,6 +84,31 @@ namespace ShipsInSpace.Controllers
             }
 
             return null;
+        }
+
+        private Ship FillModelFromIds(ShipViewModel model)
+        {
+            var ship = new Ship()
+            {
+                Engine = _spaceTransitAuthority.GetEngines().FirstOrDefault(e => e.Id == model.Engine.Id),
+                Hull =  _spaceTransitAuthority.GetHulls().FirstOrDefault(h => h.Id == model.Hull.Id),
+                Name = "Test",
+                // Select wings from spaceship authority that overlap with the selected ids
+                Wings = _spaceTransitAuthority.GetWings()
+                    .Where(wing => model.Wings.Select(wing1 => wing1.Id)
+                    .Contains(wing.Id))
+                    .ToList(),
+            };
+
+            // Add weapons to wings
+            var i = 0;
+            foreach (var wing in model.Wings)
+            {
+                ship.Wings[i].Hardpoint = _spaceTransitAuthority.GetWeapons().Where(w => wing.HardpointIds.Contains(w.Id)).ToList();
+                i++;
+            }
+
+            return ship;
         }
     }
 }
