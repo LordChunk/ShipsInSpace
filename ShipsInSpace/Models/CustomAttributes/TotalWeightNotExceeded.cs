@@ -16,7 +16,7 @@ namespace ShipsInSpace.Models.CustomAttributes
                 return new ValidationResult("Hull needs to be selected.");
            
             var maxCapacity = (int)ship.Hull.DefaultMaximumTakeOffMass;
-            int currentCapacity = 0;
+            var currentCapacity = 0;
 
             if (ship.Engine != null)
             {
@@ -25,7 +25,11 @@ namespace ShipsInSpace.Models.CustomAttributes
 
             if (ship.Wings != null)
             {
-                currentCapacity += ship.Wings.Sum(wing => wing.Weight);
+                foreach (var wing in ship.Wings)
+                {
+                    currentCapacity += wing.Weight;
+                    currentCapacity += wing.Hardpoint.Sum(weapon => weapon.Weight);
+                }
             }
 
             return currentCapacity > maxCapacity ? ValidationResult.Success : new ValidationResult("Current configuration weights too much!");
