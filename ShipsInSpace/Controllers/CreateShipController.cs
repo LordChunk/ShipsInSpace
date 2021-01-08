@@ -7,11 +7,11 @@ namespace ShipsInSpace.Controllers
 {
     public class CreateShipController : Controller
     {
-        private ISpaceTransitAuthority spaceTransitAuthority;
+        private readonly ISpaceTransitAuthority _spaceTransitAuthority;
 
         public CreateShipController(ISpaceTransitAuthority mySpaceTransitAuthority)
         {
-            spaceTransitAuthority = mySpaceTransitAuthority;
+            _spaceTransitAuthority = mySpaceTransitAuthority;
         }
 
         public IActionResult Index() => RedirectToAction("HullAndEngine");
@@ -36,10 +36,24 @@ namespace ShipsInSpace.Controllers
                 model.SelectedShip.Wings.Add(new Wing());
             }
 
+            _spaceTransitAuthority.CheckActualHullCapacity(GetHullFromViewModel(model.SelectedShip.Hull));
             return RedirectToAction("Weapons", model);
         }
 
-        public IActionResult Wings(SelectionOfShipModel model)
+        private Hull GetHullFromViewModel(HullViewModel hullView)
+        {
+            foreach (var hull in _spaceTransitAuthority.GetHulls())
+            {
+                if (hullView.Id == hull.Id)
+                {
+                    return hull;
+                }
+            }
+
+            return null;
+        }
+
+        private bool ValidateChoicesStep1(SelectionOfShipViewModel model)
         {
             return View("")
         }
