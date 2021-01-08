@@ -5,7 +5,6 @@ using ShipsInSpace.Models;
 
 namespace ShipsInSpace.Controllers
 {
-    [Route("{controller}")]
     public class CreateShipController : Controller
     {
         private ISpaceTransitAuthority spaceTransitAuthority;
@@ -15,19 +14,19 @@ namespace ShipsInSpace.Controllers
             spaceTransitAuthority = mySpaceTransitAuthority;
         }
 
-        [Route("1")]
-        public IActionResult Step1(SelectionOfShipModel model)
+        public IActionResult Index() => RedirectToAction("HullAndEngine");
+
+        public IActionResult HullAndEngine(SelectionOfShipModel model)
         {
             return View("CreateShip", model);
         }
 
         [HttpPost]
-        [Route("1")]
-        public IActionResult Step1Confirm(SelectionOfShipModel model)
+        public IActionResult HullAndEngineConfirm(SelectionOfShipModel model)
         {
-            if (!ValidateChoicesStep1(model))
+            if (!ModelState.IsValid)
             {
-                RedirectToAction("Step1", model);
+                RedirectToAction("HullAndEngine", model);
             }
 
             model.SelectedShip.Wings = new List<Wing>();
@@ -37,26 +36,27 @@ namespace ShipsInSpace.Controllers
                 model.SelectedShip.Wings.Add(new Wing());
             }
 
-            return RedirectToAction("Step2", model);
-        }
-        private bool ValidateChoicesStep1(SelectionOfShipModel model)
-        {
-            return true;
+            return RedirectToAction("Weapons", model);
         }
 
-        [Route("2")]
-        public IActionResult Step2(SelectionOfShipModel model)
+        public IActionResult Wings(SelectionOfShipModel model)
+        {
+            return View("")
+        }
+
+
+
+        public IActionResult Weapons(SelectionOfShipModel model)
         {
             return View("CreateShip", model);
         }
 
         [HttpPost]
-        [Route("2")]
-        public IActionResult Step2Confirm(SelectionOfShipModel model)
+        public IActionResult WeaponsConfirm(SelectionOfShipModel model)
         {
-            if (!ValidateChoicesStep2(model))
+            if (!ModelState.IsValid)
             {
-                RedirectToAction("Step2", model);
+                RedirectToAction("Weapons", model);
             }
 
             return RedirectToAction("Step3", model);

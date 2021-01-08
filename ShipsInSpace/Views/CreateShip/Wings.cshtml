@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Create Ship";
+}
+@using GalacticSpaceTransitAuthority
+@model ShipsInSpace.Models.SelectionOfShipModel
+@inject ISpaceTransitAuthority TransitAuthority
+@{
+    if (Model.SelectedShip.Wings == null)
+    {
+        Model.SelectedShip.Wings = new List<Wing>();
+        for (var i = 0; i < Model.NumberOfWings; i++)
+        {
+            Model.SelectedShip.Wings.Add(null);
+        }
+    }
+}
+
+<div class="text-center">
+    <h4>Wing</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Wings">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @for (var wingIndex = 0; wingIndex < Model.SelectedShip.Wings.Count; wingIndex++)
+                {
+                    <div class="form-group">
+                        <select asp-for="SelectedShip.Wings[wingIndex].Id">
+                            @foreach (var wing in TransitAuthority.GetWings())
+                            {
+                                <option value="@wing.Id">@wing.Name - @wing.Weight KG - @wing.NumberOfHardpoints slot</option>
+                            }
+                        </select>
+                    </div>
+
+                    @*<div class="form-group">
+                        <select asp-for="SelectedShip.Wings[wingIndex].Hardpoint" multiple>
+                            @foreach (var weapon in TransitAuthority.GetWeapons())
+                            {
+                                <option value="@weapon.Id">@weapon.Name</option>
+                            }
+                        </select>
+                    </div>*@
+                }
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
