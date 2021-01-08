@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GalacticSpaceTransitAuthority;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ShipsInSpace.Models;
 using ShipsInSpace.Models.ViewModels;
@@ -10,17 +9,11 @@ namespace ShipsInSpace.Controllers
 {
     public class CreateShipController : Controller
     {
-<<<<<<< HEAD
-        private ISpaceTransitAuthority _spaceTransitAuthority;
-        private readonly UserManager<User> _userManager;
-=======
         private readonly ISpaceTransitAuthority _spaceTransitAuthority;
->>>>>>> dc405a8bd553747d7001c95cb4af763124a76431
 
-        public CreateShipController(ISpaceTransitAuthority mySpaceTransitAuthority, UserManager<User> userManager)
+        public CreateShipController(ISpaceTransitAuthority mySpaceTransitAuthority)
         {
             _spaceTransitAuthority = mySpaceTransitAuthority;
-            _userManager = userManager;
         }
 
         public IActionResult Index() { 
@@ -48,19 +41,6 @@ namespace ShipsInSpace.Controllers
         public IActionResult Weapons(ShipViewModel model)
         {
             if (!ModelState.IsValid) return View("Wings", model);
-
-            // Instantiate viewmodel hardpoints based on size of wing
-            //foreach (var wing in model.Wings)
-            //{
-            //    wing.Hardpoint = new List<WeaponViewModel>();
-
-            //    // Fetch hardpoints from service
-            //    var numberOfHardpoints = _spaceTransitAuthority.GetWings().First(w => w.Id == wing.Id).NumberOfHardpoints;
-            //    for (var i = 0; i < numberOfHardpoints; i++)
-            //    {
-            //        wing.Hardpoint.Add(new WeaponViewModel());
-            //    }
-            //}
 
             return View(model);
         }
