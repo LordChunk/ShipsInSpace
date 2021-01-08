@@ -5,11 +5,15 @@ using ShipsInSpace.Models.CustomAttributes;
 namespace ShipsInSpace.Models
 {
     [TotalWeightNotExceeded]
+    [CheckCombinations]
+    [TotalEnergyNotExceeded]
     public class ShipViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public HullViewModel Hull { get; set; }
+
+        [WingChecks]
         public List<WingViewModel> Wings { get; set; }
         public EngineViewModel Engine { get; set; }
 
@@ -30,6 +34,20 @@ namespace ShipsInSpace.Models
                 }
             }
             return currentCapacity;
+        }
+
+        public int GetTotalEnergyUsedByTheEquippedWeapons()
+        {
+            var currentEnergy = 0;
+            
+            if (Wings != null)
+            {
+                foreach (var wing in Wings)
+                {
+                    currentEnergy += wing.Hardpoint.Sum(weapon => weapon.EnergyDrain);
+                }
+            }
+            return currentEnergy;
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace ShipsInSpace.Models
 {
+
     public class WingViewModel
     {
         public int Id { get; set; }
