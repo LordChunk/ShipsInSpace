@@ -10,8 +10,12 @@ namespace ShipsInSpace.Controllers
 {
     public class CreateShipController : Controller
     {
+<<<<<<< HEAD
         private ISpaceTransitAuthority _spaceTransitAuthority;
         private readonly UserManager<User> _userManager;
+=======
+        private readonly ISpaceTransitAuthority _spaceTransitAuthority;
+>>>>>>> dc405a8bd553747d7001c95cb4af763124a76431
 
         public CreateShipController(ISpaceTransitAuthority mySpaceTransitAuthority, UserManager<User> userManager)
         {
