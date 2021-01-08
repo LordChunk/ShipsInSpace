@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AutoMapper;
 using GalacticSpaceTransitAuthority;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +40,28 @@ namespace ShipsInSpace
                     options.AddPolicy("License "+license, policy => policy.RequireClaim("License", license.ToString()));
                 }
             });
+        }
+
+        public static void AddAutoMapper(this IServiceCollection services)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Engine, EngineViewModel>();
+                cfg.CreateMap<Hull, HullViewModel>();
+                cfg.CreateMap<Ship, ShipViewModel>();
+                cfg.CreateMap<Weapon, WeaponViewModel>();
+                cfg.CreateMap<Wing, WingViewModel>();
+
+                cfg.CreateMap<EngineViewModel, Engine>();
+                cfg.CreateMap<HullViewModel, Hull>();
+                cfg.CreateMap<ShipViewModel, Ship>();
+                cfg.CreateMap<WeaponViewModel, Weapon>();
+                cfg.CreateMap<WingViewModel, Wing>();
+            });
+
+            var mapper = new Mapper(config);
+
+            services.AddSingleton(mapper);
         }
     }
 }
