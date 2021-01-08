@@ -49,13 +49,21 @@ namespace ShipsInSpace.Controllers
 
 
         [HttpPost]
-        public IActionResult Confirm(ShipViewModel model)
+        public IActionResult OverviewShip(ShipViewModel model)
         {
             if (!ModelState.IsValid) return View("Weapons", model);
             
             var finalShip = FillModelFromIds(model);
             
             return View(finalShip);
+        }
+
+        [HttpPost]
+        public IActionResult SubmitShip(ShipViewModel model)
+        {
+            var finalShip = FillModelFromIds(model);
+
+            return Json(finalShip);
         }
 
 
