@@ -71,5 +71,18 @@ namespace ShipsInSpace.Controllers
         //{
         //    return View("CreateShip");
         //}
+
+        private Hull GetHullFromViewModel(HullViewModel hullView)
+        {
+            foreach (var hull in _spaceTransitAuthority.GetHulls())
+            {
+                if (hullView.Id == hull.Id)
+                {
+                    return hull;
+                }
+            }
+
+            return null;
+        }
     }
 }
