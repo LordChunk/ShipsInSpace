@@ -24,36 +24,27 @@ namespace ShipsInSpace.Models.CustomAttributes
                 return new ValidationResult("You cant use stasis weapon(s) in combination with gravity weapon(s).");
             }
 
+            if (NullifierCantBeAlloneOnWing(ship))
+            {
+                return new ValidationResult("You cant put the Nullifier weapon as the only weapon on a wing. Add another weapon if possible or change weapon/wing.");
+            }
+
             return ValidationResult.Success;
         }
 
         private bool CheckImploderWeaponWithIntrepidEngine(ShipViewModel ship)
         {
-            if (ship.Engine.Name == "Intrepid Class")
-            {
-                if (ship.Wings.SelectMany(wing => wing.Hardpoint).Any(weapon => weapon.Name == "Imploder"))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return ship.Engine.Name == "Intrepid Class" && ship.Wings.SelectMany(wing => wing.Hardpoint).Any(weapon => weapon.Name == "Imploder");
         }
 
         private bool CheckForWeaponType(ShipViewModel ship, DamageTypeEnum damageType)
         {
-            foreach (var wing in ship.Wings)
-            {
-                foreach (var weapon in wing.Hardpoint)
-                {
-                    if (weapon.DamageType == damageType)
-                    {
-                        return true;
-                    }
-                }
-            }
+            return ship.Wings.Any(wing => wing.Hardpoint.Any(weapon => weapon.DamageType == damageType));
+        }
 
-            return false;
+        private bool NullifierCantBeAlloneOnWing(ShipViewModel ship)
+        {
+            return ship.Wings.Any(wing => wing.Hardpoint.Capacity == 1 && wing.Hardpoint[0].Name == "Nullifier");
         }
     }
 }
