@@ -2,18 +2,8 @@
     ViewData["Title"] = "Create Ship";
 }
 @using GalacticSpaceTransitAuthority
-@model ShipsInSpace.Models.SelectionOfShipModel
+@model ShipsInSpace.Models.ShipViewModel
 @inject ISpaceTransitAuthority TransitAuthority
-@{
-    if (Model.SelectedShip.Wings == null)
-    {
-        Model.SelectedShip.Wings = new List<Wing>();
-        for (var i = 0; i < Model.NumberOfWings; i++)
-        {
-            Model.SelectedShip.Wings.Add(null);
-        }
-    }
-}
 
 <div class="text-center">
     <h4>Wing</h4>
@@ -22,10 +12,10 @@
         <div class="col-md-4">
             <form asp-action="Wings">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                @for (var wingIndex = 0; wingIndex < Model.SelectedShip.Wings.Count; wingIndex++)
+                @for (var wingIndex = 0; wingIndex < Model.Wings.Count; wingIndex++)
                 {
                     <div class="form-group">
-                        <select asp-for="SelectedShip.Wings[wingIndex].Id">
+                        <select asp-for="Wings[wingIndex].Id">
                             @foreach (var wing in TransitAuthority.GetWings())
                             {
                                 <option value="@wing.Id">@wing.Name - @wing.Weight KG - @wing.NumberOfHardpoints slot</option>

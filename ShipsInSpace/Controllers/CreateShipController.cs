@@ -7,52 +7,54 @@ namespace ShipsInSpace.Controllers
 {
     public class CreateShipController : Controller
     {
-        private ISpaceTransitAuthority spaceTransitAuthority;
+        private ISpaceTransitAuthority _spaceTransitAuthority;
 
         public CreateShipController(ISpaceTransitAuthority mySpaceTransitAuthority)
         {
-            spaceTransitAuthority = mySpaceTransitAuthority;
+            _spaceTransitAuthority = mySpaceTransitAuthority;
         }
 
         public IActionResult Index() => RedirectToAction("HullAndEngine");
 
-        public IActionResult HullAndEngine(SelectionOfShipModel model)
+        public IActionResult HullAndEngine(HullAndEngineModel model)
         {
-            return View("CreateShip", model);
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult HullAndEngineConfirm(SelectionOfShipModel model)
+        public IActionResult HullAndEngineConfirm(HullAndEngineModel model)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid) return RedirectToAction("HullAndEngine", model);
+
+            model.Ship.Wings = new List<WingViewModel>();
+
+            for (var i = 0; i < model.NumberOfWings; i++)
             {
-                RedirectToAction("HullAndEngine", model);
+                model.Ship.Wings.Add(new WingViewModel());
             }
 
-            model.SelectedShip.Wings = new List<Wing>();
-
-            for (int i = 0; i < model.NumberOfWings; i++)
-            {
-                model.SelectedShip.Wings.Add(new Wing());
-            }
-
-            return RedirectToAction("Weapons", model);
+            return RedirectToAction("Wings", model.Ship);
         }
 
-        public IActionResult Wings(SelectionOfShipModel model)
+        public IActionResult Wings(ShipViewModel model)
         {
-            return View("")
+            return View(model);
+        }
+
+        public IActionResult WingsConfirm(ShipViewModel model)
+        {
+            return RedirectToAction(!ModelState.IsValid ? "Wings" : "Weapons", model);
         }
 
 
 
-        public IActionResult Weapons(SelectionOfShipModel model)
+        public IActionResult Weapons(ShipViewModel model)
         {
-            return View("CreateShip", model);
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult WeaponsConfirm(SelectionOfShipModel model)
+        public IActionResult WeaponsConfirm(ShipViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -61,16 +63,13 @@ namespace ShipsInSpace.Controllers
 
             return RedirectToAction("Step3", model);
         }
-        private bool ValidateChoicesStep2(SelectionOfShipModel model)
-        {
-            return true;
-        }
 
 
-        [Route("3")]
-        public IActionResult Step3()
-        {
-            return View("CreateShip");
-        }
+
+        //[Route("3")]
+        //public IActionResult Step3()
+        //{
+        //    return View("CreateShip");
+        //}
     }
 }
