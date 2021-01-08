@@ -16,24 +16,24 @@ namespace ShipsInSpace.Controllers
 
         public IActionResult Index() => RedirectToAction("HullAndEngine");
 
-        public IActionResult HullAndEngine(SelectionOfShipModel model)
+        public IActionResult HullAndEngine(SelectionOfShipViewModel model)
         {
             return View("CreateShip", model);
         }
 
         [HttpPost]
-        public IActionResult HullAndEngineConfirm(SelectionOfShipModel model)
+        public IActionResult HullAndEngineConfirm(SelectionOfShipViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 RedirectToAction("HullAndEngine", model);
             }
 
-            model.SelectedShip.Wings = new List<Wing>();
+            model.SelectedShip.Wings = new List<WingViewModel>();
 
             for (int i = 0; i < model.NumberOfWings; i++)
             {
-                model.SelectedShip.Wings.Add(new Wing());
+                model.SelectedShip.Wings.Add(new WingViewModel());
             }
 
             _spaceTransitAuthority.CheckActualHullCapacity(GetHullFromViewModel(model.SelectedShip.Hull));
@@ -52,21 +52,14 @@ namespace ShipsInSpace.Controllers
 
             return null;
         }
-
-        private bool ValidateChoicesStep1(SelectionOfShipViewModel model)
-        {
-            return View("")
-        }
-
-
-
-        public IActionResult Weapons(SelectionOfShipModel model)
+        
+        public IActionResult Weapons(SelectionOfShipViewModel model)
         {
             return View("CreateShip", model);
         }
 
         [HttpPost]
-        public IActionResult WeaponsConfirm(SelectionOfShipModel model)
+        public IActionResult WeaponsConfirm(SelectionOfShipViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -75,11 +68,6 @@ namespace ShipsInSpace.Controllers
 
             return RedirectToAction("Step3", model);
         }
-        private bool ValidateChoicesStep2(SelectionOfShipModel model)
-        {
-            return true;
-        }
-
 
         [Route("3")]
         public IActionResult Step3()
