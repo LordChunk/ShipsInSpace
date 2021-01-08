@@ -8,7 +8,7 @@ namespace ShipsInSpace.Controllers
 {
     public class CreateShipController : Controller
     {
-        private ISpaceTransitAuthority _spaceTransitAuthority;
+        private readonly ISpaceTransitAuthority _spaceTransitAuthority;
 
         public CreateShipController(ISpaceTransitAuthority mySpaceTransitAuthority)
         {
