@@ -20,7 +20,7 @@ namespace ShipsInSpace.Controllers
         {
             // Check if user is pirate
             if (User.HasClaim(c => c.Type == "License")) 
-                return RedirectToAction("StepOne", "CreateShip");
+                return RedirectToAction("Index", "CreateShip");
 
             // Redirect to manager page
             return RedirectToAction("Plate", "Registration");
