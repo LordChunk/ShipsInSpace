@@ -8,9 +8,8 @@
     <div class="row">
         <div class="col-md-4">
             <form asp-action="Wings">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                
                 <input type="hidden" asp-for="Ship.Id" value="@Model.Ship.Id"/>
+                <div asp-validation-summary="All" class="text-danger"></div>
 
                 <div class="form-group">
                     <span>Select a hull</span>
@@ -21,15 +20,15 @@
                     <span>Select an engine</span>
                     <select asp-for="Ship.Engine.Id" asp-items='new SelectList(TransitAuthority.GetEngines(), "Id", "Name")'></select>
                 </div>
-                
+
                 <div class="form-group">
-                    <label  asp-for="NumberOfWings" class="control-label"></label>
-                    <input asp-for="NumberOfWings" class="form-control" />
+                    <label asp-for="NumberOfWings" class="control-label"></label>
+                    <input asp-for="NumberOfWings" class="form-control"/>
                     <span asp-validation-for="NumberOfWings" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <input type="submit" value="Save" class="btn btn-primary"/>
                 </div>
             </form>
         </div>
