@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ShipsInSpace.Models.CustomAttributes;
 
@@ -19,7 +20,8 @@ namespace ShipsInSpace.Models
 
         public int GetTotalWeight() {
             var currentCapacity = 0;
-    
+            double multiplier = 1;
+
             if (Engine != null)
             {
                 currentCapacity += Engine.Weight;
@@ -27,13 +29,35 @@ namespace ShipsInSpace.Models
 
             if (Wings != null && Wings.All(w => w.Name != null))
             {
+                if (TwoOrMoreStatisRiflesEquiped())
+                {
+                    multiplier = 0.85;
+                }
+
                 foreach (var wing in Wings)
                 {
                     currentCapacity += wing.Weight;
                     currentCapacity += wing.Hardpoint.Sum(weapon => weapon.Weight);
                 }
             }
-            return currentCapacity;
+            return currentCapacity * (int)multiplier;
+        }
+
+        private bool TwoOrMoreStatisRiflesEquiped()
+        {
+            int amountOfStasisRifles = 0;
+            foreach (var wing in Wings)
+            {
+                foreach (var weapon in wing.Hardpoint)
+                {
+                    if (weapon.DamageType == DamageTypeEnum.Statis)
+                    {
+                        amountOfStasisRifles++;
+                    }
+                }
+            }
+
+            return amountOfStasisRifles >= 2;
         }
 
         public int GetTotalEnergyUsedByTheEquippedWeapons()
@@ -42,12 +66,44 @@ namespace ShipsInSpace.Models
             
             if (Wings != null && Wings.All(w => w.Name != null))
             {
+                Dictionary<DamageTypeEnum, int> amountOfWeaponsPerDamageType = AmountOfWeaponsPerDamageType();
+
                 foreach (var wing in Wings)
                 {
-                    currentEnergy += wing.Hardpoint.Sum(weapon => weapon.EnergyDrain);
+                    foreach (var weapon in wing.Hardpoint)
+                    {
+                        if (amountOfWeaponsPerDamageType[weapon.DamageType] >= 3)
+                        {
+                            currentEnergy += (int)(weapon.EnergyDrain * 0.8);
+                        }
+                        else
+                        {
+                            currentEnergy += weapon.EnergyDrain;
+                        }
+                    }
                 }
             }
             return currentEnergy;
+        }
+
+        private Dictionary<DamageTypeEnum, int> AmountOfWeaponsPerDamageType()
+        {
+            Dictionary<DamageTypeEnum, int> amountOfWeaponsPerDamageType = new Dictionary<DamageTypeEnum, int>();
+
+            foreach (var damageType in Enum.GetValues<DamageTypeEnum>())
+            {
+                amountOfWeaponsPerDamageType.Add(damageType,0);
+            }
+
+            foreach (var wing in Wings)
+            {
+                foreach (var weapon in wing.Hardpoint)
+                {
+                    amountOfWeaponsPerDamageType[weapon.DamageType]++;
+                }
+            }
+
+            return amountOfWeaponsPerDamageType;
         }
     }
 }
