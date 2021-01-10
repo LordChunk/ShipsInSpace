@@ -1,0 +1,44 @@
+﻿@model ShipsInSpace.Models.ShipViewModel
+
+<div class="text-left">
+    <h3>Configuration</h3>
+    <div>
+        <p>Name: @Model.Name</p>
+        @if (Model.Hull != null)
+        {
+            <p>
+                Hull: @Model.Hull.Name <br/>
+                Capacity: @Math.Round(Model.Hull.ActualTakeOffMass) KG
+            </p>
+            <p>
+                Engine: @Model.Engine.Name <br/>
+                Energy: @Model.Engine.Energy <br/>
+                Weight: @Model.Engine.Weight KG <br/>
+            </p>
+        }
+
+    </div>
+    <div>
+        @if (Model.Wings != null && Model.Wings.Count > 0)
+        {
+            <h4>Wings</h4>
+            @foreach (var wing in Model.Wings)
+            {
+                <div>
+                    <p>Name: @wing.Name</p>
+                    @if (wing.Hardpoint != null)
+                    {
+                        
+                        <h5>Hardpoint list</h5>
+                        @foreach (var hardpoint in wing.Hardpoint)
+                        {
+                            <div>
+                                <p>@hardpoint.Name</p>
+                            </div>
+                        }
+                    }
+                </div>
+            }
+        }
+    </div>
+</div>
