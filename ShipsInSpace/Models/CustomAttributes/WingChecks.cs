@@ -13,6 +13,11 @@ namespace ShipsInSpace.Models.CustomAttributes
 
             var wingsList = (List<WingViewModel>)value;
 
+            if (wingsList.Any(w => w.Name == null))
+            {
+                return ValidationResult.Success;
+            }
+
             if (wingsList.Count == 0) return ValidationResult.Success;
 
             if (wingsList.Count % 2 != 0)

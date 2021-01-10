@@ -25,7 +25,7 @@ namespace ShipsInSpace.Models
                 currentCapacity += Engine.Weight;
             }
 
-            if (Wings != null)
+            if (Wings != null && Wings.All(w => w.Name != null))
             {
                 foreach (var wing in Wings)
                 {
@@ -40,7 +40,7 @@ namespace ShipsInSpace.Models
         {
             var currentEnergy = 0;
             
-            if (Wings != null)
+            if (Wings != null && Wings.All(w => w.Name != null))
             {
                 foreach (var wing in Wings)
                 {
