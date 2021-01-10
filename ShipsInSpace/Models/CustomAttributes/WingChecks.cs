@@ -11,7 +11,7 @@ namespace ShipsInSpace.Models.CustomAttributes
         {
             var wingsList = (List<WingViewModel>)value;
 
-            if (wingsList.Capacity % 2 != 0)
+            if (wingsList.Count % 2 != 0)
             {
                 return new ValidationResult("There are an odd number off wings. Have you ever seen a spaceship with an odd number off wings? me neither so change it to an even number of wings, thanks in advance.");
             }
