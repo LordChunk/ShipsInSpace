@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ShipsInSpace.Models.ViewModels
+﻿namespace ShipsInSpace.Models.ViewModels
 {
     public class HullAndEngineModel
     {
