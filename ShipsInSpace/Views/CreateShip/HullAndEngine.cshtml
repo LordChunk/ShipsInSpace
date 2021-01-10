@@ -34,9 +34,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="NumberOfWings" class="control-label"></label>
-                    <input asp-for="NumberOfWings" class="form-control"/>
-                    <span asp-validation-for="NumberOfWings" class="text-danger"></span>
+                    <label asp-for="@Model.Ship.NumberOfWings" class="control-label"></label>
+                    <input asp-for="@Model.Ship.NumberOfWings" class="form-control"/>
+                    <span asp-validation-for="@Model.Ship.NumberOfWings" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">

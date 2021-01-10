@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ShipsInSpace.Models.CustomAttributes;
 
@@ -13,6 +14,11 @@ namespace ShipsInSpace.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public HullViewModel Hull { get; set; }
+
+
+        [Display(Name = "Number of wings")]
+        [WingCountValidation]
+        public int NumberOfWings { get; set; }
 
         [WingChecks]
         public List<WingViewModel> Wings { get; set; }

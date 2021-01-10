@@ -16,6 +16,7 @@
                 <input type="hidden" asp-for="Hull.Id" value="@Model.Hull.Id" />
                 <input type="hidden" asp-for="Hull.ActualTakeOffMass" value="@Model.Hull.ActualTakeOffMass" />
                 <input type="hidden" asp-for="Id" value="@Model.Id" />
+                <input type="hidden" asp-for="NumberOfWings" value="@Model.NumberOfWings"/>
                 @for (var i = 0; i < Model.Wings.Count; i++)
                 {
                     <input type="hidden" asp-for="Wings[i].Id" value="@Model.Wings[i].Id" />
