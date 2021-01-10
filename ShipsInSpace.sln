@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShipsInSpace", "ShipsInSpace\ShipsInSpace.csproj", "{2120B2E7-E30C-4200-8643-D9F9BA049A70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShipsInSpace", "ShipsInSpace\ShipsInSpace.csproj", "{2120B2E7-E30C-4200-8643-D9F9BA049A70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GalacticSpaceTransitAuthority", "GalacticSpaceTransitAuthority\GalacticSpaceTransitAuthority.csproj", "{961C319D-389E-42CF-A0F1-C240A57CF8FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GalacticSpaceTransitAuthority", "GalacticSpaceTransitAuthority\GalacticSpaceTransitAuthority.csproj", "{961C319D-389E-42CF-A0F1-C240A57CF8FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{64A2558E-C2C2-432E-9B6E-E2F65E38B74A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{961C319D-389E-42CF-A0F1-C240A57CF8FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{961C319D-389E-42CF-A0F1-C240A57CF8FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{961C319D-389E-42CF-A0F1-C240A57CF8FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64A2558E-C2C2-432E-9B6E-E2F65E38B74A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64A2558E-C2C2-432E-9B6E-E2F65E38B74A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64A2558E-C2C2-432E-9B6E-E2F65E38B74A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64A2558E-C2C2-432E-9B6E-E2F65E38B74A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
