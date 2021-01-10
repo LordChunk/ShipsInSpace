@@ -54,7 +54,7 @@ namespace ShipsInSpace.Models.CustomAttributes
 
         private bool NullifierCantBeAlloneOnWing(ShipViewModel ship)
         {
-            return ship.Wings.Any(wing => wing.Hardpoint.Capacity == 1 && wing.Hardpoint[0].Name == "Nullifier");
+            return ship.Wings.Any(wing => wing.Hardpoint.Count == 1 && wing.Hardpoint[0].Name == "Nullifier");
         }
     }
 }
