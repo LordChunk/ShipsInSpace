@@ -14,15 +14,15 @@ namespace ShipsInSpace.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public HullViewModel Hull { get; set; }
-
-
         [Display(Name = "Number of wings")]
         [WingCountValidation]
         public int NumberOfWings { get; set; }
-
         [WingChecks]
         public List<WingViewModel> Wings { get; set; }
         public EngineViewModel Engine { get; set; }
+        public int Agility => (Hull?.Agility + Wings?.Sum(w => w.Agility)) ?? 0;
+        public int Speed => (Hull?.Speed + Wings?.Sum(w => w.Speed)) ?? 0;
+        public int Energy => Engine?.Energy + Wings?.Sum(w => w.Energy) ?? 0;
 
         public int GetTotalWeight() {
             var currentCapacity = 0;
