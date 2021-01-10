@@ -12,5 +12,10 @@ namespace GalacticSpaceTransitAuthority
         public int Weight { get; set; }
         public List<Weapon> Hardpoint { get; set; }
         public int NumberOfHardpoints { get; set; }
+
+        public Wing Copy()
+        {
+            return (Wing)this.MemberwiseClone();
+        }
     }
 }

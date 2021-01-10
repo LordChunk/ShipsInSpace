@@ -24,10 +24,11 @@ namespace ShipsInSpace.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult Index() { 
+        public IActionResult Index()
+        {
             // TODO: Fetch license plate
 
-            return View("HullAndEngine", new HullAndEngineModel() { Ship = new ShipViewModel{ Id = 1 }});
+            return View("HullAndEngine", new HullAndEngineModel() { Ship = new ShipViewModel { Id = 1 } });
         }
 
         [HttpPost]
@@ -71,18 +72,17 @@ namespace ShipsInSpace.Controllers
             if (!TryValidateModel(model)) return View("Weapons", model);
 
             // Check total weight against license claim
-            var licence = Enum.Parse<PilotLicense>(User.Claims.FirstOrDefault(c => c.Type == "License")!.Value!);
-            if ((int) licence < model.GetTotalWeight())
+            var license = Enum.Parse<PilotLicense>(User.Claims.FirstOrDefault(c => c.Type == "License")!.Value!);
+            if ((int)license < model.GetTotalWeight())
             {
                 ModelState.AddModelError("WeightExceedsLicense",
-                    $"Your weight exceeds your License's allowance ({licence} {(int) licence} KG)");
+                    $"Your weight exceeds your License's allowance ({license} {(int)license} KG)");
 
                 return View("Weapons", model);
             }
 
-            var finalShip = FillModelFromIds(model);
-            
-            return View(finalShip);
+
+            return View(model);
         }
 
         [HttpPost]
@@ -91,8 +91,7 @@ namespace ShipsInSpace.Controllers
             var finalShip = FillModelFromIds(model);
             var registrationId = _spaceTransitAuthority.RegisterShip(JsonConvert.SerializeObject(finalShip));
 
-
-            return Json(registrationId);
+            return Json(finalShip);
         }
 
 
@@ -114,7 +113,7 @@ namespace ShipsInSpace.Controllers
             var ship = new Ship()
             {
                 Engine = _spaceTransitAuthority.GetEngines().FirstOrDefault(e => e.Id == model.Engine.Id),
-                Hull =  _spaceTransitAuthority.GetHulls().FirstOrDefault(h => h.Id == model.Hull.Id),
+                Hull = _spaceTransitAuthority.GetHulls().FirstOrDefault(h => h.Id == model.Hull.Id),
                 Name = model.Name,
             };
 
@@ -122,17 +121,20 @@ namespace ShipsInSpace.Controllers
             ship.Wings = new List<Wing>();
             if (model.Wings != null)
             {
-                foreach (var wing in model.Wings)
-                {
-                    ship.Wings.Add(_spaceTransitAuthority.GetWings().FirstOrDefault(w => w.Id == wing.Id));
-                }
-
-                // Add weapons to wings
                 var i = 0;
                 foreach (var wing in model.Wings)
                 {
-                    if (wing.HardpointIds == null) continue;
-                    ship.Wings[i].Hardpoint = _spaceTransitAuthority.GetWeapons().Where(w => wing.HardpointIds.Contains(w.Id)).ToList();
+                    ship.Wings.Add(_spaceTransitAuthority.GetWings().First(w => w.Id == wing.Id).Copy());
+
+                    // Add weapon to wing
+                    ship.Wings[i].Hardpoint = new List<Weapon>();
+                    if (wing.HardpointIds != null)
+                    {
+                        foreach (var hardpointId in wing.HardpointIds)
+                        {
+                            ship.Wings[i].Hardpoint.Add(_spaceTransitAuthority.GetWeapons().First(w => w.Id == hardpointId).Copy());
+                        }
+                    }
                     i++;
                 }
             }

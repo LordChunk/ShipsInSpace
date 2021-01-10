@@ -7,6 +7,11 @@
         public DamageTypeEnum DamageType { get; set; }
         public int EnergyDrain { get; set; }
         public int Weight { get; set; }
+
+        public Weapon Copy()
+        {
+            return (Weapon)this.MemberwiseClone();
+        }
     }
 
     public enum DamageTypeEnum
