@@ -29,7 +29,7 @@ namespace ShipsInSpace.Models
 
             if (Wings != null && Wings.All(w => w.Name != null))
             {
-                if (TwoOrMoreStatisRiflesEquiped())
+                if (TwoOrMoreStasisRiflesEquipped())
                 {
                     multiplier = 0.85;
                 }
@@ -43,7 +43,7 @@ namespace ShipsInSpace.Models
             return currentCapacity * (int)multiplier;
         }
 
-        private bool TwoOrMoreStatisRiflesEquiped()
+        private bool TwoOrMoreStasisRiflesEquipped()
         {
             int amountOfStasisRifles = 0;
             foreach (var wing in Wings)
