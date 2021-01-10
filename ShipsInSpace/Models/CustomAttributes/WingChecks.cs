@@ -9,7 +9,11 @@ namespace ShipsInSpace.Models.CustomAttributes
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            if(value == null) return ValidationResult.Success;
+
             var wingsList = (List<WingViewModel>)value;
+
+            if (wingsList.Count == 0) return ValidationResult.Success;
 
             if (wingsList.Count % 2 != 0)
             {

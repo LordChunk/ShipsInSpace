@@ -30,12 +30,15 @@ namespace ShipsInSpace.Controllers
         [HttpPost]
         public IActionResult ConfirmHullAndEngine(HullAndEngineModel model)
         {
-            var hull = _spaceTransitAuthority.GetHulls().FirstOrDefault(h => h.Id == model.Ship.Hull.Id);
+            model.Ship = _mapper.Map<ShipViewModel>(FillModelFromIds(model.Ship));
+
+            var hull = GetHullFromViewModel(model.Ship.Hull);
             // Calculate ship take off mass allowance
-            model.Ship.Hull = _mapper.Map<HullViewModel>(hull);
             model.Ship.Hull.ActualTakeOffMass = _spaceTransitAuthority.CheckActualHullCapacity(hull);
 
-            if (!ModelState.IsValid) return View("HullAndEngine", model);
+            ModelState.Clear();
+
+            if (!TryValidateModel(model.Ship)) return View("HullAndEngine", model);
 
             // Fill wings list according to selected number of wings
             model.Ship.Wings = new List<WingViewModel>();
@@ -94,18 +97,22 @@ namespace ShipsInSpace.Controllers
                 Hull =  _spaceTransitAuthority.GetHulls().FirstOrDefault(h => h.Id == model.Hull.Id),
                 Name = "Test",
                 // Select wings from spaceship authority that overlap with the selected ids
-                Wings = _spaceTransitAuthority.GetWings()
-                    .Where(wing => model.Wings.Select(wing1 => wing1.Id)
-                    .Contains(wing.Id))
-                    .ToList(),
             };
 
-            // Add weapons to wings
-            var i = 0;
-            foreach (var wing in model.Wings)
+            if (model.Wings != null)
             {
-                ship.Wings[i].Hardpoint = _spaceTransitAuthority.GetWeapons().Where(w => wing.HardpointIds.Contains(w.Id)).ToList();
-                i++;
+                ship.Wings = _spaceTransitAuthority.GetWings()
+                .Where(wing => model.Wings.Select(wing1 => wing1.Id)
+                    .Contains(wing.Id))
+                    .ToList();
+
+                // Add weapons to wings
+                var i = 0;
+                foreach (var wing in model.Wings)
+                {
+                    ship.Wings[i].Hardpoint = _spaceTransitAuthority.GetWeapons().Where(w => wing.HardpointIds.Contains(w.Id)).ToList();
+                    i++;
+                }
             }
 
             return ship;

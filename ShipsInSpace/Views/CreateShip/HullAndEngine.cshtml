@@ -25,7 +25,7 @@
                 <div class="form-group">
                     <span>Select an engine</span>
                     @*<select asp-for="Ship.Engine.Id" asp-items='new SelectList(TransitAuthority.GetEngines(), "Id", "Name")'></select>*@
-                    <select asp-for="Ship.Engine">
+                    <select asp-for="Ship.Engine.Id">
                         @foreach (var engine in TransitAuthority.GetEngines())
                         {
                             <option value="@engine.Id">@engine.Name - @engine.Weight KG - Energy: @engine.Energy</option>

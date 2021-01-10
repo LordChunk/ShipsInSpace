@@ -9,6 +9,13 @@ namespace ShipsInSpace.Models.CustomAttributes
         {
             var ship = (ShipViewModel)value;
 
+
+            // Do not validate incomplete ships
+            if (ship.Wings == null || ship.Wings.Count == 0 || ship.Wings[0].Hardpoint == null)
+            {
+                return ValidationResult.Success;
+            }
+
             if (CheckImploderWeaponWithIntrepidEngine(ship))
             {
                 return new ValidationResult("You cant use the weapon imploder in combination with the Intrepid Class engine.");
@@ -34,7 +41,10 @@ namespace ShipsInSpace.Models.CustomAttributes
 
         private bool CheckImploderWeaponWithIntrepidEngine(ShipViewModel ship)
         {
-            return ship.Engine.Name == "Intrepid Class" && ship.Wings.SelectMany(wing => wing.Hardpoint).Any(weapon => weapon.Name == "Imploder");
+            if (ship.Engine.Id != 2) return false;
+
+
+            return ship.Wings.SelectMany(wing => wing.Hardpoint).Any(weapon => weapon.Name == "Imploder");
         }
 
         private bool CheckForWeaponType(ShipViewModel ship, DamageTypeEnum damageType)
