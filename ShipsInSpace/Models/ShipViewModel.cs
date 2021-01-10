@@ -46,7 +46,7 @@ namespace ShipsInSpace.Models
                     currentCapacity += wing.Hardpoint.Sum(weapon => weapon.Weight);
                 }
             }
-            return currentCapacity * (int)multiplier;
+            return (int)(currentCapacity * multiplier);
         }
 
         private bool TwoOrMoreStasisRiflesEquipped()
