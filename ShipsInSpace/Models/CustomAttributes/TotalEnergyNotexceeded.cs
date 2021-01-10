@@ -12,7 +12,7 @@ namespace ShipsInSpace.Models.CustomAttributes
 
             var ship = (ShipViewModel) value;
 
-            if (ship.Engine.Energy + ship.Wings.Sum(wing => wing.Energy) < ship.GetTotalEnergyUsedByTheEquippedWeapons())
+            if (ship.Energy < ship.GetTotalEnergyUsedByTheEquippedWeapons())
             {
                 return new ValidationResult("The Equipped weapons drain more energy than the engine can support.");
             }
