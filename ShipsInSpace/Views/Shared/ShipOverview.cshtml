@@ -7,16 +7,19 @@
         @if (Model.Hull != null)
         {
             <p>
-                Hull: @Model.Hull.Name <br/>
+                Hull: @Model.Hull.Name <br />
                 Capacity: @Math.Round(Model.Hull.ActualTakeOffMass) KG
             </p>
-            <p>
-                Engine: @Model.Engine.Name <br/>
-                Energy: @Model.Engine.Energy <br/>
-                Weight: @Model.Engine.Weight KG <br/>
-            </p>
+            <ul>
+                <li>Engine: @Model.Engine.Name </li>
+                <li>Energy provided: @Model.Engine.Energy</li>
+                <li>Weight: @Model.Engine.Weight KG </li>
+            </ul>
+            <ul>
+                <li><strong>Total weight: @Model.GetTotalWeight() KG</strong></li>
+                <li><strong>Total energy used: @Model.GetTotalEnergyUsedByTheEquippedWeapons()</strong></li>
+            </ul>
         }
-
     </div>
     <div>
         @if (Model.Wings != null && Model.Wings.Count > 0)
@@ -25,16 +28,17 @@
             @foreach (var wing in Model.Wings)
             {
                 <div>
-                    <p>Name: @wing.Name</p>
+                    <h5>Wing name: @wing.Name</h5>
                     @if (wing.Hardpoint != null)
                     {
-                        
-                        <h5>Hardpoint list</h5>
                         @foreach (var hardpoint in wing.Hardpoint)
                         {
-                            <div>
-                                <p>@hardpoint.Name</p>
-                            </div>
+                            <strong>@hardpoint.Name: </strong>
+                            <ul>
+                                <li>Weight: @hardpoint.Weight KG</li>
+                                <li>Type: @hardpoint.DamageType</li>
+                                <li>Energy: @hardpoint.EnergyDrain</li>
+                            </ul>
                         }
                     }
                 </div>
