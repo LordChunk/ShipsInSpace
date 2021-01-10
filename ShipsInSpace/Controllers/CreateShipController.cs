@@ -2,12 +2,14 @@
 using System.Linq;
 using AutoMapper;
 using GalacticSpaceTransitAuthority;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShipsInSpace.Models;
 using ShipsInSpace.Models.ViewModels;
 
 namespace ShipsInSpace.Controllers
 {
+    [Authorize(Policy = "License")]
     public class CreateShipController : Controller
     {
         private readonly ISpaceTransitAuthority _spaceTransitAuthority;
