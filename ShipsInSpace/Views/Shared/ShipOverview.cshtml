@@ -1,0 +1,48 @@
+﻿@model ShipsInSpace.Models.ShipViewModel
+
+<div class="text-left">
+    <h3>Configuration</h3>
+    <div>
+        <p>Name: @Model.Name</p>
+        @if (Model.Hull != null)
+        {
+            <p>
+                Hull: @Model.Hull.Name <br />
+                Capacity: @Math.Round(Model.Hull.ActualTakeOffMass) KG
+            </p>
+            <ul>
+                <li>Engine: @Model.Engine.Name </li>
+                <li>Energy provided: @Model.Engine.Energy</li>
+                <li>Weight: @Model.Engine.Weight KG </li>
+            </ul>
+            <ul>
+                <li><strong>Total weight: @Model.GetTotalWeight() KG</strong></li>
+                <li><strong>Total energy used: @Model.GetTotalEnergyUsedByTheEquippedWeapons()</strong></li>
+            </ul>
+        }
+    </div>
+    <div>
+        @if (Model.Wings != null && Model.Wings.Count > 0)
+        {
+            <h4>Wings</h4>
+            @foreach (var wing in Model.Wings)
+            {
+                <div>
+                    <h5>Wing name: @wing.Name</h5>
+                    @if (wing.Hardpoint != null)
+                    {
+                        @foreach (var hardpoint in wing.Hardpoint)
+                        {
+                            <strong>@hardpoint.Name: </strong>
+                            <ul>
+                                <li>Weight: @hardpoint.Weight KG</li>
+                                <li>Type: @hardpoint.DamageType</li>
+                                <li>Energy: @hardpoint.EnergyDrain</li>
+                            </ul>
+                        }
+                    }
+                </div>
+            }
+        }
+    </div>
+</div>
