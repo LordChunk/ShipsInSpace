@@ -41,7 +41,7 @@ namespace ShipsInSpace.Controllers
 
             // Fill wings list according to selected number of wings
             model.Ship.Wings = new List<WingViewModel>();
-            for (var i = 0; i < model.NumberOfWings; i++)
+            for (var i = 0; i < model.Ship.NumberOfWings; i++)
                 model.Ship.Wings.Add(new WingViewModel());
 
             return View("Wings", model.Ship);
@@ -129,6 +129,7 @@ namespace ShipsInSpace.Controllers
         {
             var returnValue = _mapper.Map<ShipViewModel>(FillModelFromIds(model));
             returnValue.Hull.ActualTakeOffMass = model.Hull.ActualTakeOffMass;
+            returnValue.NumberOfWings = model.NumberOfWings;
 
             return returnValue;
         }

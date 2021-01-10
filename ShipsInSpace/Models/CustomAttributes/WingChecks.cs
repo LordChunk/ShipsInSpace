@@ -20,11 +20,6 @@ namespace ShipsInSpace.Models.CustomAttributes
 
             if (wingsList.Count == 0) return ValidationResult.Success;
 
-            if (wingsList.Count % 2 != 0)
-            {
-                return new ValidationResult("There are an odd number off wings. Have you ever seen a spaceship with an odd number off wings? me neither so change it to an even number of wings, thanks in advance.");
-            }
-
             if (wingsList.Any(wing => wing.Hardpoint.Count > wing.NumberOfHardpoints))
             {
                 return new ValidationResult("You cant equip more weapons than there are slots on the wing, bloody wanker!");
