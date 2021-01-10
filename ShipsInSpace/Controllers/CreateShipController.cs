@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using GalacticSpaceTransitAuthority;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ShipsInSpace.Models;
+using ShipsInSpace.Models.Enums;
 using ShipsInSpace.Models.ViewModels;
 
 namespace ShipsInSpace.Controllers
@@ -66,7 +69,17 @@ namespace ShipsInSpace.Controllers
 
             ModelState.Clear();
             if (!TryValidateModel(model)) return View("Weapons", model);
-            
+
+            // Check total weight against license claim
+            var licence = Enum.Parse<PilotLicense>(User.Claims.FirstOrDefault(c => c.Type == "License")!.Value!);
+            if ((int) licence < model.GetTotalWeight())
+            {
+                ModelState.AddModelError("WeightExceedsLicense",
+                    $"Your weight exceeds your License's allowance ({licence} {(int) licence} KG)");
+
+                return View("Weapons", model);
+            }
+
             var finalShip = FillModelFromIds(model);
             
             return View(finalShip);
@@ -76,8 +89,10 @@ namespace ShipsInSpace.Controllers
         public IActionResult SubmitShip(ShipViewModel model)
         {
             var finalShip = FillModelFromIds(model);
+            var registrationId = _spaceTransitAuthority.RegisterShip(JsonConvert.SerializeObject(finalShip));
 
-            return Json(finalShip);
+
+            return Json(registrationId);
         }
 
 
@@ -100,10 +115,10 @@ namespace ShipsInSpace.Controllers
             {
                 Engine = _spaceTransitAuthority.GetEngines().FirstOrDefault(e => e.Id == model.Engine.Id),
                 Hull =  _spaceTransitAuthority.GetHulls().FirstOrDefault(h => h.Id == model.Hull.Id),
-                Name = "Test",
-                // Select wings from spaceship authority that overlap with the selected ids
+                Name = model.Name,
             };
 
+            // Select wings from spaceship authority that overlap with the selected ids
             ship.Wings = new List<Wing>();
             if (model.Wings != null)
             {

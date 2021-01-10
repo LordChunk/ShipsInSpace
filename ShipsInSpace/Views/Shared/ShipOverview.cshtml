@@ -29,6 +29,10 @@
             {
                 <div>
                     <h5>Wing name: @wing.Name</h5>
+                    <ul>
+                        <li>Energy: @wing.Energy</li>
+                        <li>Weight: @wing.Weight</li>
+                    </ul>
                     @if (wing.Hardpoint != null)
                     {
                         @foreach (var hardpoint in wing.Hardpoint)

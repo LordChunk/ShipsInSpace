@@ -53,9 +53,13 @@
                 <input type="hidden" asp-for="Hull.Id" value="@Model.Hull.Id" />
                 <input type="hidden" asp-for="Name" value="@Model.Name" />
                 
-                @foreach (var wing in Model.Wings)
+                @for (int i = 0; i < Model.Wings.Count; i++)
                 {
-                    <input type="hidden" asp-for="Wings"/>
+                    <input type="hidden" asp-for="Wings[i].Id"/>
+                    for (int j = 0; j < Model.Wings[i].Hardpoint.Count; j++)
+                    {
+                        <input type="hidden" asp-for="Wings[i].Hardpoint[j].Id"/>
+                    }
                 }
 
                 <div class="form-group">
