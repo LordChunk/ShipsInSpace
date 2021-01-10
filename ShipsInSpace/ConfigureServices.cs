@@ -51,12 +51,6 @@ namespace ShipsInSpace
                 cfg.CreateMap<Ship, ShipViewModel>();
                 cfg.CreateMap<Weapon, WeaponViewModel>();
                 cfg.CreateMap<Wing, WingViewModel>();
-
-                cfg.CreateMap<EngineViewModel, Engine>();
-                cfg.CreateMap<HullViewModel, Hull>();
-                cfg.CreateMap<ShipViewModel, Ship>();
-                cfg.CreateMap<WeaponViewModel, Weapon>();
-                cfg.CreateMap<WingViewModel, Wing>();
             });
 
             var mapper = new Mapper(config);
